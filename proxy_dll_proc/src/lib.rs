@@ -109,7 +109,7 @@ pub fn proxy_dll(input: TokenStream) -> TokenStream {
 
                 TARGET_DLL_HANDLE = LoadLibraryW(dll_path.encode_wide().collect::<Vec<u16>>().as_ptr());
 
-                if TARGET_DLL_HANDLE == std::ptr::null_mut() {
+                if TARGET_DLL_HANDLE.is_null() {
                     ExitProcess(0);
                 }
             }
