@@ -60,7 +60,7 @@ pub fn proxy_dll(input: TokenStream) -> TokenStream {
     }
 
     let output = quote! {
-        fn __call_main() {
+        unsafe extern "system" fn __call_main(_: usize) {
             #main();
         }
         #[cfg(windows)]
@@ -84,7 +84,7 @@ pub fn proxy_dll(input: TokenStream) -> TokenStream {
                         LibraryLoader::{GetProcAddress, LoadLibraryA, LoadLibraryW},
                         SystemInformation::GetSystemDirectoryW,
                         SystemServices::{DLL_PROCESS_ATTACH, DLL_PROCESS_DETACH},
-                        Threading::ExitProcess,
+                        Threading::{ExitProcess, GetCurrentProcess, GetCurrentThread, QueueUserAPC},
                     },
                 },
             };
@@ -126,7 +126,7 @@ pub fn proxy_dll(input: TokenStream) -> TokenStream {
                             INIT = true;
                             load_target();
                             setup_forwards();
-                            super::__call_main();
+                            QueueUserAPC(Some(super::__call_main), GetCurrentThread(), 0);
                         }
                     },
                     DLL_PROCESS_DETACH => unsafe {
