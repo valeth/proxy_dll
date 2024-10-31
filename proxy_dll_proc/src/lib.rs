@@ -93,18 +93,12 @@ pub fn proxy_dll(input: TokenStream) -> TokenStream {
             static mut INIT: bool = false;
 
             unsafe fn load_target() {
-                let mut path = [0u16; MAX_PATH as usize];
-
-                let len = GetSystemDirectoryW(path.as_mut_ptr(), path.len() as u32) as usize;
-                if len == 0 {
+                let Ok(dir) = ::proxy_dll::get_system_directory() else {
                     return;
-                }
+                };
 
-                use std::os::windows::ffi::{OsStringExt, OsStrExt};
-                let os_str = std::ffi::OsString::from_wide(&path[..len]);
-                let p = std::path::Path::new(&os_str);
-
-                let mut dll_path = p.join(TARGET).into_os_string();
+                use std::os::windows::ffi::OsStrExt;
+                let mut dll_path = dir.join(TARGET).into_os_string();
                 dll_path.push("\0");
 
                 TARGET_DLL_HANDLE = LoadLibraryW(dll_path.encode_wide().collect::<Vec<u16>>().as_ptr());

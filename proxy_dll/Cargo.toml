@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-proxy_dll_proc = { version = "0.1.0", path = "../proxy_dll_proc" }
+proxy_dll_proc = { path = "../proxy_dll_proc" }
 windows-sys = { version = "0.59.0", features = ["Win32_Foundation", "Win32_System_Threading", "Win32_System_SystemInformation", "Win32_System_SystemServices", "Win32_System_LibraryLoader", "Win32_Storage_FileSystem"] }
