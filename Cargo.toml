@@ -3,6 +3,7 @@ resolver = "2"
 members = [
     "proxy_dll",
     "proxy_dll_proc",
+    "chain_loader",
 ]
 
 [workspace.package]
