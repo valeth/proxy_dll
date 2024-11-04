@@ -1,6 +1,6 @@
 use proxy_dll::windows_sys::Win32::System::LibraryLoader::LoadLibraryW;
 
-proxy_dll::proxy_dll!([xinput1_3, winmm, d3d11], main);
+proxy_dll::proxy_dll!([version, winmm, xinput1_3], main);
 
 fn main() {
     load_dlls().ok();
