@@ -40,7 +40,7 @@ pub fn proxy_dll(input: TokenStream) -> TokenStream {
         let dll = format!("{target}.dll");
 
         let file_string = std::fs::read_to_string(format!(
-            "{}/../defs/{target}.def",
+            "{}/defs/{target}.def",
             env!("CARGO_MANIFEST_DIR")
         ))
         .unwrap();
